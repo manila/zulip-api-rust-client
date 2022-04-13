@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 use reqwest;
 use std::collections::HashMap;
-use crate::api::message::MessageBuilder;
+use crate::api::messages::MessageBuilder;
 
 #[derive(Copy, Clone, Debug)]
 pub enum RequestMethod {
