@@ -56,7 +56,7 @@ impl ZulipRequest {
        }
     }
 
-    pub async fn send(&self) {
+    pub async fn send(&self) -> String {
         let Self { method, endpoint, credentials, parameters, realm } = self;
         let client = reqwest::Client::new();
         let endpoint = format!("https://{}/api/v1/{}", realm, endpoint);
@@ -76,7 +76,7 @@ impl ZulipRequest {
             .text()
             .await;
 
-        println!("{:?}", res);
+        format!("{:#?}",res)
     }
 }
 
@@ -85,11 +85,6 @@ pub struct ZulipCredentials {
     pub email: String,
     pub api_key: String,
 }
-
-pub struct TestTestTest {
-    test: String
-}
-
 
 impl Default for ZulipCredentials {
     fn default() -> Self {
