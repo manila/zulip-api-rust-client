@@ -8,32 +8,28 @@ use crate::api::drafts::DraftsClient;
 pub enum RequestMethod {
     GET,
     POST,
+    PATCH,
     DELETE,
 }
 
 #[derive(Clone, Debug)]
-pub struct ZulipRequest {
+pub struct ZulipRequest<'z> {
     method: RequestMethod,
-    realm: String,
+    realm: &'z String,
     endpoint: String,
     parameters: HashMap<String, String>,
-    credentials: ZulipCredentials,
+    credentials: &'z ZulipCredentials,
 }
 
-impl ZulipRequest {
-    pub fn new(method: RequestMethod, realm: String, endpoint: String) -> Self {
+impl<'z> ZulipRequest<'z> {
+    pub fn new(client: &'z ZulipClient, method: RequestMethod, endpoint: String) -> Self {
         Self {
             method,
-            realm,
+            realm: &client.realm,
             endpoint,
-            credentials: ZulipCredentials::new("".to_string(), "".to_string()),
+            credentials: &client.credentials,
             parameters: HashMap::new(),
         }
-    }
-    
-    pub fn endpoint(&mut self, endpoint: String) -> &mut Self {
-        self.endpoint = endpoint;
-        self
     }
 
     pub fn add_parameter(&mut self, key: String, value: &String) -> &mut Self {
@@ -48,21 +44,6 @@ impl ZulipRequest {
         }
     }
 
-    pub fn auth(&mut self, credentials: ZulipCredentials) -> &mut Self {
-        self.credentials = credentials;
-        self
-    }
-
-    pub fn build(&self) -> ZulipRequest {
-       ZulipRequest {
-            method: self.method,
-            realm: self.realm.clone(),
-            endpoint: self.endpoint.clone(),
-            parameters: self.parameters.clone(),
-            credentials: self.credentials.clone(),
-       }
-    }
-
     pub async fn send(&self) -> String {
         let Self { method, endpoint, credentials, parameters, realm } = self;
         let client = reqwest::Client::new();
@@ -71,11 +52,15 @@ impl ZulipRequest {
         let req = match method {
             RequestMethod::GET => client.get(endpoint),
             RequestMethod::POST => client.post(endpoint),
+            RequestMethod::PATCH => client.patch(endpoint),
             RequestMethod::DELETE => client.delete(endpoint),
         };
 
         let res = req
-            .basic_auth(credentials.email.to_string(),Some(credentials.api_key.to_string()))
+            .basic_auth(
+                credentials.email.to_string(), 
+                Some(credentials.api_key.to_string())
+            )
             .query(&self.parameters)
             .send()
             .await
@@ -87,19 +72,10 @@ impl ZulipRequest {
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Debug)]
 pub struct ZulipCredentials {
     pub email: String,
     pub api_key: String,
-}
-
-impl Default for ZulipCredentials {
-    fn default() -> Self {
-        Self {
-            email: "example@example.com".to_string(),
-            api_key: "example@example.com".to_string(),
-        }
-    }
 }
 
 impl ZulipCredentials {
@@ -111,21 +87,10 @@ impl ZulipCredentials {
     }
 }
 
-#[derive(Debug, Clone)]
 pub struct ZulipClient {
     pub realm: String,
     pub httpclient: reqwest::Client,
     pub credentials: ZulipCredentials,
-}
-
-impl Default for ZulipClient {
-    fn default() -> Self {
-        Self {
-            realm: "".to_string(),
-            httpclient: reqwest::Client::new(),
-            credentials: ZulipCredentials::default()
-        }
-    }
 }
 
 impl ZulipClient {
@@ -133,7 +98,7 @@ impl ZulipClient {
         Self {
             realm,
             credentials,
-            ..Default::default()
+            httpclient: reqwest::Client::new(),
         }
     }
 
@@ -146,22 +111,19 @@ impl ZulipClient {
     }
 
     pub fn get(&self, endpoint: String) -> ZulipRequest {
-        ZulipRequest::new(RequestMethod::GET, self.realm.clone(), endpoint)
-            .auth(self.credentials.clone())
-            .build()
+        ZulipRequest::new(self, RequestMethod::GET, endpoint)
     }
 
     pub fn post(&self, endpoint: String) -> ZulipRequest {
-        ZulipRequest::new(RequestMethod::POST, self.realm.clone(), endpoint)
-            .auth(self.credentials.clone())
-            .build()
+        ZulipRequest::new(self, RequestMethod::POST, endpoint)
+    }
 
+    pub fn patch(&self, endpoint: String) -> ZulipRequest {
+        ZulipRequest::new(self, RequestMethod::PATCH, endpoint)
     }
 
     pub fn delete(&self, endpoint: String) -> ZulipRequest {
-        ZulipRequest::new(RequestMethod::DELETE, self.realm.clone(), endpoint)
-            .auth(self.credentials.clone())
-            .build()
+        ZulipRequest::new(self, RequestMethod::DELETE, endpoint)
         
     }
 }
