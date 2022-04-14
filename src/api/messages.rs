@@ -85,13 +85,14 @@ impl<'z> MessagesSendBuilder<'z> {
         self
     }
 
-    pub async fn send(&self) -> Result<String, String> {
+    pub async fn send(&self) {
         self.client.post(format!("messages"))
-            .add_parameter("type".to_string(), "private".to_string())
-            .add_parameter("to".to_string(), self.to.to_string())
-            .add_parameter("content".to_string(), self.content.to_string());
-
-        Ok("Yay!".to_string())
+            .add_parameter("type".to_string(), &self.msg_type)
+            .add_parameter("to".to_string(), &self.to)
+            .add_parameter("content".to_string(), &self.content)
+            .add_parameter_if_some("topic".to_string(), &self.topic)
+            .add_parameter_if_some("quene_id".to_string(), &self.quene_id)
+            .add_parameter_if_some("local_id".to_string(), &self.local_id);
     }
 }
 
@@ -159,28 +160,36 @@ impl<'z> MessagesEditBuilder<'z> {
 pub struct MessagesGetBuilder<'z> {
     client: &'z ZulipClient,
     message_id: Option<u32>,
+    apply_markdown: Option<String>
 }
 
 impl<'z> MessagesGetBuilder<'z> {
     fn new(client: &'z ZulipClient) -> Self {
         Self {
             client,
-            message_id: None
+            message_id: None,
+            apply_markdown: None,
         }
     }
 
-    pub fn id(&mut self, message_id: u32) -> Self {
-        Self {
-            client: self.client,
-            message_id: Some(message_id)
+    pub fn id(mut self, message_id: u32) -> Self {
+        self.message_id = Some(message_id);
+        self
+    }
+
+    pub fn apply_markdown(mut self, apply: bool) -> Self {
+        match apply {
+            true => self.apply_markdown = Some("true".to_string()),
+            false => self.apply_markdown = Some("false".to_string()),
         }
+        self
     }
 
     pub async fn send(&self) {
-        let Self { client, message_id } = self;
+        let Self { client, message_id, apply_markdown } = self;
 
         let res = client.get(format!("messages/{}", message_id.unwrap()))
-            //.add_parameter("apply_markdown".to_string(), "true".to_string())
+            .add_parameter_if_some("apply_markdown".to_string(), &self.apply_markdown)
             .send()
             .await;
         

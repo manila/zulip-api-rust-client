@@ -36,9 +36,16 @@ impl ZulipRequest {
         self
     }
 
-    pub fn add_parameter(&mut self, key: String, value: String) -> &mut Self {
-        self.parameters.insert(key, value);
+    pub fn add_parameter(&mut self, key: String, value: &String) -> &mut Self {
+        self.parameters.insert(key, value.to_string());
         self
+    }
+
+    pub fn add_parameter_if_some(&mut self, key: String, value: &Option<String>) -> &mut Self {
+        match value {
+            Some(v) => self.add_parameter(key, v),
+            None => self
+        }
     }
 
     pub fn auth(&mut self, credentials: ZulipCredentials) -> &mut Self {
