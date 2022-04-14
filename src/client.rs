@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 use reqwest;
 use std::collections::HashMap;
-use crate::api::messages::MessageBuilder;
+use crate::api::messages::MessagesClient;
 use crate::api::drafts::DraftsClient;
 
 #[derive(Copy, Clone, Debug)]
@@ -135,8 +135,8 @@ impl ZulipClient {
         }
     }
 
-    pub fn messages(&self) -> MessageBuilder {
-        MessageBuilder::new(self)
+    pub fn messages(&self) -> MessagesClient {
+        MessagesClient::new(self)
     }
 
     pub fn drafts(&self) -> DraftsClient {

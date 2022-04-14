@@ -24,12 +24,12 @@ impl Serialize for Message {
         }
 }
 
-pub struct MessageClient<'z> {
+pub struct MessagesClient<'z> {
     client: &'z ZulipClient,
     message: Option<Message>
 }
 
-impl<'z> MessageClient<'z> {
+impl<'z> MessagesClient<'z> {
     pub fn new(client: &'z ZulipClient) -> Self {
         Self {
             client,
@@ -37,15 +37,12 @@ impl<'z> MessageClient<'z> {
         }
     }
 
-    pub fn delete_message(&self, message_id: u32) {
-    }
-
     pub fn get_message(&self, message_id: u32) -> MessagesGetBuilder {
-        MessagesGetBuilder::new(self.client)
+        MessagesGetBuilder::new(self.client).id(message_id)
     }
 }
 
-pub struct MessageSendBuilder<'z> {
+pub struct MessagesSendBuilder<'z> {
     client: &'z ZulipClient,
     msg_type: String,
     to: String,
@@ -55,7 +52,7 @@ pub struct MessageSendBuilder<'z> {
     local_id: Option<String>,
 }
 
-impl<'z> MessageSendBuilder<'z> {
+impl<'z> MessagesSendBuilder<'z> {
     pub fn new(
         client: &'z ZulipClient,
         msg_type: String, 
@@ -98,7 +95,7 @@ impl<'z> MessageSendBuilder<'z> {
     }
 }
 
-pub struct MessageEditBuilder<'z> {
+pub struct MessagesEditBuilder<'z> {
     client: &'z ZulipClient,
     message_id: u32,
     topic: Option<String>,
@@ -109,7 +106,7 @@ pub struct MessageEditBuilder<'z> {
     stream_id: Option<u32>,
 }
 
-impl<'z> MessageEditBuilder<'z> {
+impl<'z> MessagesEditBuilder<'z> {
     pub fn new(client: &'z ZulipClient, message_id: u32) -> Self {
         Self {
             client,
@@ -189,64 +186,4 @@ impl<'z> MessagesGetBuilder<'z> {
         
         println!("{:#?}", res);
     }
-}
-
-pub struct MessageBuilder<'z> {
-    client: &'z ZulipClient,
-    message: Option<Message>,
-}
-
-impl<'z> MessageBuilder<'z> {
-    pub fn new(client: &'z ZulipClient) -> Self {
-        Self {
-            client: client,
-            message: None,
-        }
-    }
-
-    pub fn send_message(&mut self, msg_type: String, to: String, content: String) -> MessageSendBuilder {
-        MessageSendBuilder::new(self.client, msg_type, to, content)
-    }
-
-    pub fn get_message(&self, message_id: u32) -> MessagesGetBuilder<'_> {
-        MessagesGetBuilder::new(self.client).id(message_id)
-    }
-
-    pub fn get_messages(&mut self, num_before: u32, num_after: u32) {
-        /*
-        self.client
-            .get("messages")
-            .add_parameter()
-            .add_parameter()
-        */
-        /*
-        self.request = ZulipRequest::new(self.client.clone())
-            .get()
-            .endpoint("messages".to_string())
-            .parameters(HashMap::from([
-                ("num_before".to_string(), format!("{}", num_before)),
-                ("num_after".to_string(), format!("{}", num_after)),
-            ]))
-            .build()
-            */
-    }
-
-    /*
-    pub async fn send(&self) {
-        let ZulipClient { realm, httpclient, credentials } = self.client;
-        let res = httpclient
-            .get(format!("https://{}/api/v1/{}", realm, self.request.endpoint))
-            .basic_auth(
-                credentials.email.clone(), 
-                Some(credentials.api_key.clone())
-            )
-            .send()
-            .await
-            .unwrap();
-
-        match res.status() {
-            _ => println!("{:?}",res.text().await)
-        }
-    }
-    */
 }
