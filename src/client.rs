@@ -3,6 +3,7 @@ use reqwest;
 use std::collections::HashMap;
 use crate::api::messages::MessagesClient;
 use crate::api::drafts::DraftsClient;
+use crate::api::users::UsersClient;
 
 #[derive(Copy, Clone, Debug)]
 pub enum RequestMethod {
@@ -117,6 +118,10 @@ impl ZulipClient {
 
     pub fn drafts(&self) -> DraftsClient {
         DraftsClient::new(self)
+    }
+
+    pub fn users(&self) -> UsersClient {
+        UsersClient::new(self)
     }
 
     pub fn get(&self, endpoint: String) -> ZulipRequest {
