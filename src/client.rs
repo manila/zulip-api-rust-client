@@ -14,6 +14,7 @@ pub enum RequestMethod {
 
 #[derive(Clone, Debug)]
 pub struct ZulipRequest<'z> {
+    httpclient: &'z reqwest::Client,
     method: RequestMethod,
     realm: &'z String,
     endpoint: String,
@@ -22,8 +23,13 @@ pub struct ZulipRequest<'z> {
 }
 
 impl<'z> ZulipRequest<'z> {
-    pub fn new(client: &'z ZulipClient, method: RequestMethod, endpoint: String) -> Self {
+    pub fn new(
+        client: &'z ZulipClient, 
+        method: RequestMethod, 
+        endpoint: String
+    ) -> Self {
         Self {
+            httpclient: &client.httpclient,
             method,
             realm: &client.realm,
             endpoint,
@@ -37,7 +43,11 @@ impl<'z> ZulipRequest<'z> {
         self
     }
 
-    pub fn add_parameter_if_some(&mut self, key: String, value: &Option<String>) -> &mut Self {
+    pub fn add_parameter_if_some(
+        &mut self, 
+        key: String, 
+        value: &Option<String>
+    ) -> &mut Self {
         match value {
             Some(v) => self.add_parameter(key, v),
             None => self
@@ -45,15 +55,14 @@ impl<'z> ZulipRequest<'z> {
     }
 
     pub async fn send(&self) -> String {
-        let Self { method, endpoint, credentials, parameters, realm } = self;
-        let client = reqwest::Client::new();
+        let Self { method, endpoint, credentials, parameters, realm, httpclient } = self;
         let endpoint = format!("https://{}/api/v1/{}", realm, endpoint);
 
         let req = match method {
-            RequestMethod::GET => client.get(endpoint),
-            RequestMethod::POST => client.post(endpoint),
-            RequestMethod::PATCH => client.patch(endpoint),
-            RequestMethod::DELETE => client.delete(endpoint),
+            RequestMethod::GET => httpclient.get(endpoint),
+            RequestMethod::POST => httpclient.post(endpoint),
+            RequestMethod::PATCH => httpclient.patch(endpoint),
+            RequestMethod::DELETE => httpclient.delete(endpoint),
         };
 
         let res = req

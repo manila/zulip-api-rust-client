@@ -104,7 +104,7 @@ pub struct MessagesEditBuilder<'z> {
     send_notification_to_old_thread: Option<bool>,
     send_notification_to_new_thread: Option<bool>,
     content: Option<String>,
-    stream_id: Option<u32>,
+    stream_id: Option<String>,
 }
 
 impl<'z> MessagesEditBuilder<'z> {
@@ -147,13 +147,20 @@ impl<'z> MessagesEditBuilder<'z> {
     }
 
     pub fn stream_id(mut self, id: u32) -> Self {
-        self.stream_id = Some(id);
+        self.stream_id = Some(format!("{}",id));
         self
     }
 
     pub async fn send(&self) {
         self.client
-            .get(format!("messages/{}", self.message_id));
+            .patch(format!("messages/{}", self.message_id))
+            .add_parameter_if_some("topic".to_string(), &self.topic)
+            .add_parameter_if_some("propogate_mode".to_string(), &self.propogate_mode)
+            //.add_parameter_if_some("send_notification_to_old_thread".to_string(), &self.send_notification_to_old_thread)
+            //`.add_parameter_if_some("send_notification_to_new_thread".to_string(), &self.send_notification_to_new_thread)
+            .add_parameter_if_some("content".to_string(), &self.content)
+            .add_parameter_if_some("stream_id".to_string(), &self.stream_id);
+
     }
 }
 
