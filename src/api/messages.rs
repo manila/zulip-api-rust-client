@@ -92,7 +92,9 @@ impl<'z> MessagesSendBuilder<'z> {
             .add_parameter("content".to_string(), &self.content)
             .add_parameter_if_some("topic".to_string(), &self.topic)
             .add_parameter_if_some("quene_id".to_string(), &self.quene_id)
-            .add_parameter_if_some("local_id".to_string(), &self.local_id);
+            .add_parameter_if_some("local_id".to_string(), &self.local_id)
+            .send()
+            .await;
     }
 }
 
@@ -159,7 +161,9 @@ impl<'z> MessagesEditBuilder<'z> {
             //.add_parameter_if_some("send_notification_to_old_thread".to_string(), &self.send_notification_to_old_thread)
             //`.add_parameter_if_some("send_notification_to_new_thread".to_string(), &self.send_notification_to_new_thread)
             .add_parameter_if_some("content".to_string(), &self.content)
-            .add_parameter_if_some("stream_id".to_string(), &self.stream_id);
+            .add_parameter_if_some("stream_id".to_string(), &self.stream_id)
+            .send()
+            .await;
 
     }
 }
@@ -192,7 +196,7 @@ impl<'z> MessagesGetBuilder<'z> {
         self
     }
 
-    pub async fn send(&self) {
+    pub async fn send(&self) -> String {
         let Self { client, message_id, apply_markdown } = self;
 
         let res = client.get(format!("messages/{}", message_id.unwrap()))
@@ -200,6 +204,6 @@ impl<'z> MessagesGetBuilder<'z> {
             .send()
             .await;
         
-        println!("{:#?}", res);
+        format!("{:#?}", res)
     }
 }
