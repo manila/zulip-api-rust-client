@@ -4,6 +4,7 @@ use std::collections::HashMap;
 use crate::api::messages::MessagesClient;
 use crate::api::drafts::DraftsClient;
 use crate::api::users::UsersClient;
+use crate::api::streams::StreamsClient;
 
 #[derive(Copy, Clone, Debug)]
 pub enum RequestMethod {
@@ -122,6 +123,10 @@ impl ZulipClient {
 
     pub fn users(&self) -> UsersClient {
         UsersClient::new(self)
+    }
+
+    pub fn streams(&self) -> StreamsClient {
+        StreamsClient::new(self)
     }
 
     pub fn get(&self, endpoint: String) -> ZulipRequest {
