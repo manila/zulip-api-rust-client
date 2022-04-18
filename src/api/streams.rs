@@ -64,3 +64,23 @@ impl<'z> SteamsSubscriptionStatusClient<'z> {
            .await;
     }
 }
+
+pub struct StreamsSubscribersClient<'z> {
+   client: &'z ZulipClient,
+   stream_id: u32,
+}
+
+impl<'z> StreamsSubscribersClient<'z> {
+    pub fn new(client: &'z ZulipClient, stream_id: u32) -> Self {
+        Self {
+            client,
+            stream_id,
+        }
+    }
+
+    pub async fn send(&self) {
+        self.client.get(format!("/streams/{}/members",self.stream_id))
+            .send()
+            .await;
+    }
+}
