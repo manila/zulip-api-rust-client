@@ -196,7 +196,7 @@ impl<'z> MessagesGetBuilder<'z> {
         self
     }
 
-    pub async fn send(&self) -> String {
+    pub async fn send(&self) -> Message {
         let Self { client, message_id, apply_markdown } = self;
 
         let res = client.get(format!("messages/{}", message_id.unwrap()))
@@ -204,6 +204,8 @@ impl<'z> MessagesGetBuilder<'z> {
             .send()
             .await;
         
-        format!("{:#?}", res)
+        let res: Message = serde_json::from_str(&res).unwrap();
+
+        res
     }
 }
