@@ -77,9 +77,10 @@ impl<'z> ZulipRequest<'z> {
             .await
             .unwrap()
             .text()
-            .await;
+            .await
+            .unwrap();
 
-        format!("{:#?}",res)
+        format!("{}",res)
     }
 }
 
