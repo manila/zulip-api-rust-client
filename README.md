@@ -44,3 +44,4 @@ src
 ## Attribution
 
 The design of this library was and is inspired by [Octocrab](https://github.com/XAMPPRocky/octocrab)
+
