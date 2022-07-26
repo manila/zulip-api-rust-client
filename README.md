@@ -37,9 +37,7 @@ PR's are welcome including documentation, typo corrections, tests, feedback, etc
 
 ## Structure
 
-src
- |--
- |--
+#### src
 
 ## Attribution
 
