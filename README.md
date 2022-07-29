@@ -35,9 +35,7 @@ PR's are welcome including documentation, typo corrections, tests, feedback, etc
 
 *please note: I am a beginner in Rust so it may take me some time to review any PR's and provide helpful feedback or insight*
 
-## Structure
-
-#### src
+## Endpoints
 
 ## Attribution
 
