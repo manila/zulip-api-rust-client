@@ -37,6 +37,10 @@ PR's are welcome including documentation, typo corrections, tests, feedback, etc
 
 ## Endpoints
 
+#### Messages
+
+- [ ] send a message
+
 ## Attribution
 
 The design of this library was and is inspired by [Octocrab](https://github.com/XAMPPRocky/octocrab)
