@@ -40,6 +40,7 @@ PR's are welcome including documentation, typo corrections, tests, feedback, etc
 #### Messages
 
 - [ ] send a message
+- [ ] upload a file
 
 ## Attribution
 
