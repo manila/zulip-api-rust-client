@@ -42,6 +42,8 @@ PR's are welcome including documentation, typo corrections, tests, feedback, etc
 - [ ] send a message
 - [ ] upload a file
 - [ ] edit a message
+- [ ] delete a message
+- [ ] get messages
 
 ## Attribution
 
