@@ -44,6 +44,9 @@ PR's are welcome including documentation, typo corrections, tests, feedback, etc
 - [ ] edit a message
 - [ ] delete a message
 - [ ] get messages
+- [ ] construct a narrow
+- [ ] add an emoji reaction
+- [ ] remove an emoji reaction
 
 ## Attribution
 
