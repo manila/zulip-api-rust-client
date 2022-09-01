@@ -47,6 +47,12 @@ PR's are welcome including documentation, typo corrections, tests, feedback, etc
 - [ ] construct a narrow
 - [ ] add an emoji reaction
 - [ ] remove an emoji reaction
+- [ ] render a message
+- [ ] fetch a single message
+- [ ] check if messages match narrow
+- [ ] get a message's edit history
+- [ ] update personal message flags
+- [ ] mark messages as read in bulk
 
 ## Attribution
 
