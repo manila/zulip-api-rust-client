@@ -54,6 +54,13 @@ PR's are welcome including documentation, typo corrections, tests, feedback, etc
 - [ ] update personal message flags
 - [ ] mark messages as read in bulk
 
+#### Drafts
+
+- [ ] get drafts
+- [ ] create drafts
+- [ ] edit a draft
+- [ ] delete a draft
+
 ## Attribution
 
 The design of this library was and is inspired by [Octocrab](https://github.com/XAMPPRocky/octocrab)
