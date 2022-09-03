@@ -61,6 +61,12 @@ PR's are welcome including documentation, typo corrections, tests, feedback, etc
 - [ ] edit a draft
 - [ ] delete a draft
 
+#### Streams
+- [ ] get subscribed streams
+- [ ] subscribe to a stream
+- [ ] unsubscribe from a stream
+- [ ] get subscriptio
+
 ## Attribution
 
 The design of this library was and is inspired by [Octocrab](https://github.com/XAMPPRocky/octocrab)
