@@ -65,7 +65,7 @@ PR's are welcome including documentation, typo corrections, tests, feedback, etc
 - [ ] get subscribed streams
 - [ ] subscribe to a stream
 - [ ] unsubscribe from a stream
-- [ ] get subscriptio
+- [ ] get subscription
 
 ## Attribution
 
