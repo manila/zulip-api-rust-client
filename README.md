@@ -80,6 +80,36 @@ PR's are welcome including documentation, typo corrections, tests, feedback, etc
 - [ ] add a default stream
 - [ ] remove a default stream
 
+#### Users
+
+- [ ] get all users
+- [ ] get own user
+- [ ] get a user
+- [ ] get a user by email
+- [ ] update a user
+- [ ] update your status
+- [ ] create a user
+- [ ] deactivate a user
+- [ ] reactivate a user
+- [ ] deactivate own user
+- [ ] set "typing" status
+- [ ] get user presence
+- [ ] get presence of all users
+- [ ] get attachments
+- [ ] delete an attachment
+- [ ] update settings
+- [ ] get user groups
+- [ ] create a user group
+- [ ] update a user group
+- [ ] delete a user group
+- [ ] update user group members
+- [ ] update user group subgroups
+- [ ] get user group membership status
+- [ ] get user group members
+- [ ] get subgroups of user group
+- [ ] mute a user
+- [ ] unmute a user
+
 ## Attribution
 
 The design of this library was and is inspired by [Octocrab](https://github.com/XAMPPRocky/octocrab)
