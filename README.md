@@ -62,10 +62,23 @@ PR's are welcome including documentation, typo corrections, tests, feedback, etc
 - [ ] delete a draft
 
 #### Streams
+
 - [ ] get subscribed streams
 - [ ] subscribe to a stream
 - [ ] unsubscribe from a stream
 - [ ] get subscription
+- [ ] update subscription settings
+- [ ] get all streams
+- [ ] get a stream by ID
+- [ ] get stream ID
+- [ ] create a stream
+- [ ] update a stream
+- [ ] archive a stream
+- [ ] get topics in a stream
+- [ ] topic muting
+- [ ] delete a topic
+- [ ] add a default stream
+- [ ] remove a default stream
 
 ## Attribution
 
