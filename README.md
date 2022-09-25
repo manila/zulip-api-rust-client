@@ -1,6 +1,6 @@
 # Zulip API Client Library Rust Crate
 
-This repo contains the code for an unofficial, third-party Zulip API client library crate written in the Rust programming language. This library maps Zulip API endpoints into a set of modules that can be used in a Rust project
+This repo contains the code for an unofficial, third-party Zulip API client library crate written in the Rust programming language. This library maps Zulip API endpoints into a set of modules that can be used in a Rust project.
 
 ## Installing
 
