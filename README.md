@@ -4,7 +4,7 @@ This repo contains the code for an unofficial, third-party Zulip API client libr
 
 ## Installing
 
-TODO: How to add to crate to Cargo.toml
+TODO: How to add to crate to Cargo.toml.
 
 ## Examples
 
